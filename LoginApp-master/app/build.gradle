@@ -1,0 +1,86 @@
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "gradle.plugin.com.kncept.junit.reporter:junit-reporter:2.1.0"
+        classpath 'com.stanfy.spoon:spoon-gradle-plugin:1.2.2'
+    }
+}
+
+plugins {
+    id 'com.android.application'
+}
+
+apply plugin: "com.kncept.junit.reporter"
+apply plugin: 'spoon'
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.3"
+
+    packagingOptions {
+        exclude 'META-INF/*'
+        exclude 'LICENSE.txt'
+    }
+
+    defaultConfig {
+        applicationId "com.example.myloginapp"
+        minSdkVersion 22
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    buildFeatures {
+        viewBinding true
+    }
+}
+
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.3.0'
+    implementation 'com.google.android.material:material:1.4.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0-alpha04'
+    androidTestImplementation 'androidx.test:rules:1.4.1-alpha04'
+    androidTestImplementation "org.mockito:mockito-android:2.28.2"
+    androidTestImplementation 'com.android.support.test.espresso:espresso-intents:3.0.1'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-web:3.0.2'
+    androidTestImplementation 'com.linkedin.testbutler:test-butler-library:2.2.1'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    androidTestImplementation 'com.squareup.spoon:spoon-client:1.7.1'
+}
+
+spoon {
+    debug = true
+    grantAllPermissions = true
+}
+
+junitHtmlReport {
+    maxDepth = 3
+
+    cssRed = 'red'
+    cssAmber = 'orange'
+    cssGreen = 'green'
+
+    testResultsDir = 'test-results'
+    testReportsDir = 'reports/tests'
+
+    failOnEmpty = true
+}
