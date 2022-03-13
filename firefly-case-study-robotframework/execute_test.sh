@@ -1,0 +1,1 @@
+robot -L debug -d Results Tests/GorestUsers.robot
